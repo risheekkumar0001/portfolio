@@ -32,10 +32,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      # 6. Clean Nuxt cache
-      - name: Clean Nuxt cache
-        run: npx nuxt clean
-
       # 7. Build Nuxt app
       - name: Build Nuxt app
         run: pnpm run build -- --preset=firebase
