@@ -1,4 +1,5 @@
 name: Deploy to Firebase Hosting on merge
+
 on:
   push:
     branches:
@@ -11,14 +12,14 @@ jobs:
       # Step 1: Checkout repository
       - uses: actions/checkout@v4
 
-      # Step 2: Set up Node.js
+      # Step 2: Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'   # Use your preferred Node.js version
+          node-version: '20'
 
       # Step 3: Install pnpm
-      - name: Install pnpm
+      - name: Setup pnpm
         run: npm install -g pnpm
 
       # Step 4: Install dependencies
@@ -26,13 +27,11 @@ jobs:
         run: pnpm install
 
       # Step 5: Build the app
-      - name: Build
+      - name: Build Nuxt app
         run: pnpm run build -- --preset=firebase
 
-      # Step 6: Deploy to Firebase Hosting
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PORTFOLIO_ECBD0 }}
-          channelId: live
-          projectId: portfolio-ecbd0
+      # Step 6: Deploy to Firebase (Hosting + Functions)
+      - name: Deploy to Firebase
+        run: npx firebase-tools deploy --project portfolio-ecbd0 --only hosting,functions
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PORTFOLIO_ECBD0 }}
