@@ -22,18 +22,28 @@ jobs:
       - name: Setup pnpm
         run: npm install -g pnpm
 
-      # 4. Install dependencies
+      # 4. Remove node_modules and yarn.lock (like your local fix)
+      - name: Clean previous dependencies
+        run: |
+          rm -rf node_modules
+          rm -f pnpm-lock.yaml
+
+      # 5. Install dependencies
       - name: Install dependencies
         run: pnpm install
 
-      # 5. Build Nuxt app
+      # 6. Clean Nuxt cache
+      - name: Clean Nuxt cache
+        run: npx nuxt clean
+
+      # 7. Build Nuxt app
       - name: Build Nuxt app
         run: pnpm run build -- --preset=firebase
 
-      # 7. Deploy to Firebase
+      # 8. Deploy to Firebase
       - name: Deploy to Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PORTFOLIO_ECBD0 }}"
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PORTFOLIO_ECBD0 }}
           projectId: "portfolio-ecbd0"
           channelId: live
