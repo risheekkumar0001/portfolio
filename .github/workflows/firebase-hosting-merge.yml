@@ -30,11 +30,15 @@ jobs:
       - name: Build Nuxt app
         run: pnpm run build -- --preset=firebase
 
-      # 6. Deploy to Firebase Hosting & Functions
+      # 6. NEW: Check build output
+      - name: Check build output
+        run: ls -R
+
+      # 7. Deploy to Firebase
       - name: Deploy to Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}" # default GitHub token
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PORTFOLIO_ECBD0 }}"
           projectId: "portfolio-ecbd0"
           channelId: live
