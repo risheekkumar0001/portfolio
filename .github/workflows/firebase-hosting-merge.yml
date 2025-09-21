@@ -37,4 +37,3 @@ jobs:
           repoToken: "${{ secrets.GITHUB_TOKEN }}" # default GitHub token
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PORTFOLIO_ECBD0 }}"
           projectId: "portfolio-ecbd0"
-          targets: "hosting,functions" # deploy both Hosting & Functions
