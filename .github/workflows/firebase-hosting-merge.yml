@@ -9,31 +9,32 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
+      # 1. Checkout repo
       - uses: actions/checkout@v4
 
+      # 2. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
+      # 3. Setup pnpm
       - name: Setup pnpm
         run: npm install -g pnpm
 
+      # 4. Install dependencies
       - name: Install dependencies
         run: pnpm install
 
+      # 5. Build Nuxt app
       - name: Build Nuxt app
         run: pnpm run build -- --preset=firebase
 
-      - name: Setup Firebase CLI
-        run: npm install -g firebase-tools@latest
-
-      - name: Setup Firebase service account
-        run: |
-          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PORTFOLIO_ECBD0 }}" > $GITHUB_WORKSPACE/firebase-key.json
-        shell: bash
-
+      # 6. Deploy to Firebase Hosting & Functions
       - name: Deploy to Firebase
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: $GITHUB_WORKSPACE/firebase-key.json
-        run: npx firebase-tools deploy --project portfolio-ecbd0 --only hosting,functions
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}" # default GitHub token
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PORTFOLIO_ECBD0 }}"
+          projectId: "portfolio-ecbd0"
+          targets: "hosting,functions" # deploy both Hosting & Functions
