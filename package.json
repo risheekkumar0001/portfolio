@@ -19,6 +19,7 @@
     "@nuxt/ui": "^4.0.0-alpha.2",
     "@vueuse/nuxt": "^13.9.0",
     "better-sqlite3": "^12.2.0",
+    "firebase": "^12.3.0",
     "motion-v": "^1.7.1",
     "nuxt": "^4.0.3",
     "nuxt-og-image": "^5.1.11"
