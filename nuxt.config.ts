@@ -6,7 +6,8 @@ export default defineNuxtConfig({
     '@nuxt/image',        // Optimized images
     '@nuxt/content',      // Markdown/content support
     '@vueuse/nuxt',       // Composition utilities
-    'motion-v/nuxt'       // Animations
+    'motion-v/nuxt',      // Animations
+    '@nuxt/ui'
   ],
 
   // ✅ Enable Nuxt devtools
